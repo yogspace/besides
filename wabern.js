@@ -40,15 +40,9 @@ let phase = 1;
 //speed = 0.001 = slow
 //speed = 0.01 = fast
 /***********************/
-var sketchWidth;
-var sketchHeight;
-const speed = window.speed;
-function setup() {
-  sketchWidth = document.getElementById("sketch").offsetWidth;
-  sketchHeight = document.getElementById("sketch").offsetHeight;
-  let renderer = createCanvas(sketchWidth, sketchHeight);
-  renderer.parent("sketch");
-}
+var sketchWidth = 400;
+var sketchHeight = 400;
+const speed = 0.01;
 
 function windowResized() {
   sketchWidth = document.getElementById("sketch").offsetWidth;

@@ -9,6 +9,9 @@
   "author": "yogspace",
   "license": "ISC",
   "dependencies": {
+    "eventemitter": "^0.3.3",
+    "http": "^0.0.1-security",
+    "websocket": "^1.0.34",
     "ws": "^8.8.0"
   }
 }
