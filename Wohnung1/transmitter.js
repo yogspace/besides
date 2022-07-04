@@ -15,19 +15,12 @@ server.listen(8080, function () {
 
 const wsServer = new WebSocketServer({
   httpServer: server,
-  // You should not use autoAcceptConnections for production
-  // applications, as it defeats all standard cross-origin protection
-  // facilities built into the protocol and the browser.  You should
-  // *always* verify the connection's origin and decide whether or not
-  // to accept it.
   autoAcceptConnections: false,
 });
 
 //build a connection to client
 wsServer.on("request", function (request) {
   if (!originIsAllowed(request.origin)) {
-    // nur bestimmte Anfragen erlauben (wenn angegeben)
-    // Make sure we only accept requests from an allowed origin
     request.reject();
     console.log(
       new Date() + " Connection from origin " + request.origin + " rejected."
@@ -35,9 +28,8 @@ wsServer.on("request", function (request) {
     return;
   }
 
-  let connection = request.accept("echo-protocol", request.origin); // Was ist ein echo-Protocol?
+  let connection = request.accept("echo-protocol", request.origin);
   console.log(new Date() + " Connection accepted.");
-  connection.sendUTF(JSON.stringify("Hi"));
 
   //sends Data
   myEmitter.on("sendData", (data) => {
@@ -47,10 +39,8 @@ wsServer.on("request", function (request) {
   connection.on("message", function (data) {
     let msg = JSON.parse(data.utf8Data);
     console.log("received: " + msg);
-    myEmitter.emit("sendData", "Hallooooooo");
   });
 
-  // If connection is closed
   connection.on("close", function (reasonCode, description) {
     console.log(
       new Date() + " Peer " + connection.remoteAddress + " disconnected."
