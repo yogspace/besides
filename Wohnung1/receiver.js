@@ -30,7 +30,7 @@ client.on("connect", function (connection) {
   });
   connection.on("message", function (message) {
     if (message.type === "utf8") {
-      msg = JSON.parse(message.utf8Data);
+      let msg = JSON.parse(message.utf8Data);
       console.log("received: " + msg);
     }
   });

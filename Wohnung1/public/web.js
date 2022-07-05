@@ -1,3 +1,7 @@
+let sketchWidth;
+let sketchHeight;
+let currentPosition;
+
 function updateContent() {
   //every second the html Content will be updated
   setInterval(async () => {
@@ -17,3 +21,20 @@ function updateContent() {
 }
 
 updateContent();
+
+function setup() {
+  sketchWidth = document.getElementById("sketch").offsetWidth;
+  sketchHeight = document.getElementById("sketch").offsetHeight;
+  let renderer = createCanvas(sketchWidth, sketchHeight);
+  renderer.parent("sketch");
+}
+
+function windowResized() {
+  sketchWidth = document.getElementById("sketch").offsetWidth;
+  sketchHeight = document.getElementById("sketch").offsetHeight;
+  resizeCanvas(sketchWidth, sketchHeight);
+}
+
+function draw() {
+  background(0, 0, 255);
+}
