@@ -10,6 +10,84 @@ const app = express();
 //IP vom Server - windows ipconfig
 const ip = "192.168.178.20";
 
+let payload = {
+  status: "",
+  action: [],
+};
+let lastRoutePoint = {
+  id: null,
+  name: "",
+  time: [],
+};
+let newRoutePoint = {
+  id: null,
+  name: "",
+  time: [],
+};
+
+let routePoints = [];
+
+function setStatus() {
+  /**
+   *
+   * hat sich der RP verändert?
+   * ja?
+   * < 5? "moved" - von wo bis wo?
+   * > 5? "frantic" von wo bis wo?
+   * nein? "stayed" wo?
+   * < 0? "inactive" wo?
+   *
+   */
+  console.log(lastRoutePoint);
+  console.log(newRoutePoint);
+
+  const d = new Date().toString();
+  const h = d.split(" ")[4].split(":")[0];
+  const m = d.split(" ")[4].split(":")[1];
+  const s = d.split(" ")[4].split(":")[2];
+  const dateNow = [h, m, s];
+  // hat sich der RP verändert?
+  if (lastRoutePoint.id !== routePoints[routePoints.length - 1].id) {
+    //ja?
+    console.log("changed");
+  } else {
+    //nein
+  }
+
+  //inactive
+  payload = {
+    status: "inactive",
+    action: [{ x: 0, y: 0 }],
+  };
+
+  //stayed
+  payload = {
+    status: "stayed",
+    action: [{ x: 0, y: 0 }],
+  };
+
+  //moved
+  payload = {
+    status: "moved",
+    action: [
+      { x: 0, y: 0 },
+      { x: 0, y: 0 },
+    ],
+  };
+
+  //frantic
+  payload = {
+    status: "frantic",
+    action: [
+      { x: 0, y: 0 },
+      { x: 0, y: 0 },
+    ],
+  };
+  return payload;
+}
+
+function calcRoute() {}
+
 const client = new WebSocketClient();
 
 client.on("connectFailed", function (error) {
@@ -32,6 +110,9 @@ client.on("connect", function (connection) {
     if (message.type === "utf8") {
       let msg = JSON.parse(message.utf8Data);
       console.log("received: " + msg);
+      lastRoutePoint = routePoints[routePoints.length - 1];
+      routePoints.push(msg);
+      newRoutePoint = msg;
     }
   });
 });
@@ -45,8 +126,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/data", (req, res) => {
-  data = "bla bla";
-  res.send(JSON.stringify(data));
+  res.send(JSON.stringify(setStatus()));
 });
 
 app.listen(3000);

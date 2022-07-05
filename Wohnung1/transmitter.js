@@ -53,3 +53,43 @@ function originIsAllowed(origin) {
   // put logic here to detect whether the specified origin is allowed.
   return true;
 }
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+let positions = [
+  {
+    id: 0,
+    name: "bed",
+    time: "14:00:22",
+  },
+  {
+    id: 1,
+    name: "couch",
+    time: "13:20:22",
+  },
+  {
+    id: 2,
+    name: "fridge",
+    time: "16:12:32",
+  },
+  {
+    id: 3,
+    name: "shower",
+    time: "19:37:45",
+  },
+];
+
+const myInt = setInterval(() => {
+  const d = new Date().toString();
+  const h = d.split(" ")[4].split(":")[0];
+  const m = d.split(" ")[4].split(":")[1];
+  const s = d.split(" ")[4].split(":")[2];
+  const dateNow = [h, m, s];
+
+  let i = getRndInteger(0, 3);
+
+  positions[i].time = dateNow;
+  myEmitter.emit("sendData", positions[i]);
+}, 3000);
