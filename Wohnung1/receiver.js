@@ -17,12 +17,12 @@ let payload = {
   action: [],
 };
 let lastRoutePoint = {
-  id: null,
+  id: 0,
   name: "",
   time: [],
 };
 let newRoutePoint = {
-  id: null,
+  id: 0,
   name: "",
   time: [],
 };
