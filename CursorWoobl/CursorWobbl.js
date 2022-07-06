@@ -1,37 +1,31 @@
+let mousePositions = [{ x: 0, y: 0 }];
+let mpTimer = 0;
 
-
-let mousePositions=[];
-//let mpTimer=0;
-
-function calculatePos(){
-
-    let position={
-        x:mouseX,
-        y:mouseY
+function calculatePos() {
+  if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+    let position = {
+      x: mouseX,
+      y: mouseY,
     };
+    mpTimer++;
 
-  //  mpTimer++;
- //   if(mpTimer>100){
-//mousePositions.unshift(); 
-//mpTimer=0;
+    if (mpTimer > 100) {
+      mousePositions.push(position);
+      mpTimer = 0;
+    }
 
- //   }
-    mousePositions.push(position);
-    
-
+    if (mousePositions > 100) {
+      mousePositions.unshift();
+    }
+  }
 }
 
+function draw() {
+  clear();
+  background(0, 0, 0);
+  ellipse(mousePositions[0].x, mousePositions[0].y, 20, 20);
+  calculatePos();
 
-
-
-
-  
-  function draw() { 
-    background(0,0,0);
-    //make the ellipse follow your mouse 
-    //ellipse(mousePositions[0].x,mousePositions[0].y,20,20);
-        ellipse(0,0,20,20);
-
-    calculatePos();
-    console.log(mousePositions);
-  }
+  // console.log(mousePositions);
+  console.log(mpTimer);
+}
