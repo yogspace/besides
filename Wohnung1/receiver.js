@@ -8,7 +8,9 @@ const myEmitter = new EventEmitter();
 const app = express();
 
 //IP vom Server - windows ipconfig
-const ip = "192.168.178.20";
+//Max Zuhause 192.168.178.20
+//Max Dieburg 172.16.16.228
+const ip = "172.16.16.228";
 
 let payload = {
   status: "",
@@ -62,13 +64,13 @@ function setStatus() {
 
   //stayed
   payload = {
-    status: "stayed",
+    status: "staying",
     action: [{ x: 0, y: 0 }],
   };
 
   //moved
   payload = {
-    status: "moved",
+    status: "moving",
     action: [
       { x: 0, y: 0 },
       { x: 0, y: 0 },
@@ -86,7 +88,10 @@ function setStatus() {
   return payload;
 }
 
-function calcRoute() {}
+function calcRoute() {
+  action = [];
+  return action;
+}
 
 const client = new WebSocketClient();
 
