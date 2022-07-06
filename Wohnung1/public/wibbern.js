@@ -46,7 +46,7 @@ function wibbern() {
     }
     endShape(CLOSE);
 
-    yoff += 0.01;
+    yoff += 0.001;
   }
 }
 
