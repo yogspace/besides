@@ -1,29 +1,23 @@
+let socket = io();
+let mousePos = {
+  x: 0,
+  y: 0,
+};
+let inputCanvas = {};
+
+socket.on("send", (payload) => {
+  mousePos = payload.mousePos;
+  inputCanvas = payload.canvas;
+  //   console.log(payload);
+  console.log(mousePos.x);
+  console.log(sketchWidth);
+  console.log(inputCanvas.width);
+  mousePos.x = mousePos.x * (sketchWidth / inputCanvas.width);
+  mousePos.y = mousePos.y * (sketchHeight / inputCanvas.height);
+});
+
 let sketchWidth;
 let sketchHeight;
-let mousePositions = [];
-
-function updateContent() {
-  //every second the html Content will be updated
-  setInterval(async () => {
-    const response = await fetch("/data", { method: "GET" });
-
-    //if express delivers no training
-    const isContentEmpty = response.headers.get("Content-Length") === "0";
-    if (isContentEmpty) {
-      console.log("no content");
-      return;
-    }
-
-    const data = await response.json();
-    // console.log(data);
-    mousePositions = data;
-    //overwrite training
-    console.log("get response:");
-    console.log(mousePositions);
-  }, 10);
-}
-
-updateContent();
 
 function setup() {
   sketchWidth = document.getElementById("sketch").offsetWidth;
@@ -38,16 +32,7 @@ function windowResized() {
   resizeCanvas(sketchWidth, sketchHeight);
 }
 
-function drawCircle() {
-  circle(
-    mousePositions[mousePositions.length - 1].x,
-    mousePositions[mousePositions.length - 1].y,
-    20
-  );
-}
-
 function draw() {
-  clear();
   background(0, 0, 255);
-  // drawCircle();
+  circle(mousePos.x, mousePos.y, 20);
 }

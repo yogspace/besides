@@ -11,32 +11,28 @@ const io = new Server(server);
 
 io.on("connection", (socket) => {
   console.log("a user connected");
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+  socket.on("send", (payload) => {
+    io.emit("send", payload);
+  });
 });
 
 //https://expressjs.com/en/guide/routing.html
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
+});
 app.get("/eingabe", (req, res) => {
-  res.sendFile(path.join(__dirname + "/eingabe/index.html"));
+  res.sendFile(__dirname + "/eingabe/index.html");
 });
 app.get("/ausgabe", (req, res) => {
-  res.sendFile(path.join(__dirname + "/ausgabe/index.html"));
+  res.sendFile(__dirname + "/ausgabe/index.html");
 });
 
-let data;
-
-app.post("/data", async (req, res) => {
-  data = req.body;
+server.listen(3000, () => {
+  console.log("listening on *:3000");
 });
-app.get("/data", async (req, res) => {
-  // console.log(data);
-  res.send(data);
-});
-// app.get("/set-data", async (req, res) => {
-//   res.send(data);
-// });
-app.listen(3000);
-console.log("listening on http://localhost:3000");
-console.log("http://localhost:3000/eingabe for input apartment");
-console.log("http://localhost:3000/ausgabe for output apartment");
