@@ -17,6 +17,12 @@ io.on("connection", (socket) => {
   socket.on("send", (payload) => {
     io.emit("send", payload);
   });
+  socket.on("sendArea", (name) => {
+    io.emit("sendArea", name);
+  });
+  socket.on("sendAreaLive", (name) => {
+    io.emit("sendAreaLive", name);
+  });
 });
 
 //https://expressjs.com/en/guide/routing.html

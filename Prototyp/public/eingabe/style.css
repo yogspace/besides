@@ -1,5 +1,6 @@
 html {
   height: 100%;
+  background-color: #000;
 }
 body {
   margin: 20px;
@@ -21,7 +22,7 @@ main {
 .sketch {
   /* background-color: orange; */
   width: calc(100vw - 40px);
-  aspect-ratio: 16 / 8;
+  aspect-ratio: 4 / 3;
 
   /* height: 56.25%; */
 }
