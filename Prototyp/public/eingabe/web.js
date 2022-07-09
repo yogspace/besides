@@ -109,7 +109,7 @@ function draw() {
   clear();
   drawBackround();
   drawAreas();
-  drawCircle();
+  // drawCircle();
 }
 
 function mouseMoved() {
@@ -147,6 +147,10 @@ function mouseMoved() {
 }
 
 function mouseClicked() {
+  move();
+}
+
+function move() {
   for (let i = 0; i < areas.length; i++) {
     if (
       mouseX > areas[i].pos.x - areas[i].pos.width / 2 &&

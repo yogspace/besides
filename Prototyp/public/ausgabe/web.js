@@ -4,6 +4,12 @@ let sketchWidth = document.getElementById("sketch").offsetWidth;
 let sketchHeight = document.getElementById("sketch").offsetHeight;
 let backgroundImg;
 
+let config = {
+  speed: 100,
+  anmountOfWayPoints: 1,
+  showWayPoints: false,
+};
+
 let mousePos = {
   x: 0,
   y: 0,
@@ -12,8 +18,8 @@ let inputCanvas = {};
 
 let player = {
   pos: {
-    x: 100,
-    y: 100,
+    x: -1000,
+    y: -1000,
   },
   lastWayPoint: {
     name: "",
@@ -57,8 +63,15 @@ let wayPoints = [
   {
     id: 3,
     pos: {
-      x: sketchWidth / 2 - sketchWidth * 0.03,
+      x: sketchWidth / 2 + sketchWidth * 0.02,
       y: sketchHeight / 2 + sketchWidth * 0.015,
+    },
+  },
+  {
+    id: 12,
+    pos: {
+      x: sketchWidth / 2 - sketchWidth * 0.032,
+      y: sketchHeight / 2 + sketchWidth * 0.12,
     },
   },
   {
@@ -155,6 +168,8 @@ function draw() {
   drawPlayer();
 }
 
+moveTo(wayPoints[0]);
+
 socket.on("send", (payload) => {
   mousePos = payload.mousePos;
   inputCanvas = payload.canvas;
@@ -165,15 +180,14 @@ socket.on("send", (payload) => {
 socket.on("sendArea", (name) => {
   for (let i = 0; i < wayPoints.length; i++) {
     if (name === wayPoints[i].name) {
-      movingTo(wayPoints[i]);
+      moveTo(wayPoints[i]);
     }
   }
 });
 
 //HIER DIE ANIMATION
-
 function getWayPointPos(ids) {
-  let points = [];
+  let points = [player.pos];
   for (let j = 0; j < ids.length; j++) {
     for (let i = 0; i < wayPoints.length; i++) {
       if (wayPoints[i].id === ids[j]) {
@@ -186,24 +200,23 @@ function getWayPointPos(ids) {
 
 function calcRoute(point) {
   let route = [];
-  console.log(player.lastWayPoint);
   switch (player.lastWayPoint.name) {
     case "door":
       switch (point.name) {
         case "bed":
-          route = getWayPointPos([3, 1]);
+          route = getWayPointPos([12, 1]);
           break;
         case "livearea":
-          route = getWayPointPos([3, 2]);
+          route = getWayPointPos([12, 2]);
           break;
         case "desk":
-          route = getWayPointPos([3, 2, 11, 7]);
+          route = getWayPointPos([12, 2, 11, 7]);
           break;
         case "table":
-          route = getWayPointPos([4]);
+          route = getWayPointPos([12, 4]);
           break;
         case "kitchen":
-          route = getWayPointPos([4, 9]);
+          route = getWayPointPos([12, 4, 9]);
           break;
         default:
           break;
@@ -212,7 +225,7 @@ function calcRoute(point) {
     case "bed":
       switch (point.name) {
         case "door":
-          route = getWayPointPos([1, 3]);
+          route = getWayPointPos([1, 12]);
           break;
         case "livearea":
           route = getWayPointPos([1, 2]);
@@ -224,7 +237,7 @@ function calcRoute(point) {
           route = getWayPointPos([1, 3, 4]);
           break;
         case "kitchen":
-          route = getWayPointPos([1, 3, 4, 9]);
+          route = getWayPointPos([1, 4, 9]);
           break;
         default:
           break;
@@ -233,7 +246,7 @@ function calcRoute(point) {
     case "livearea":
       switch (point.name) {
         case "door":
-          route = getWayPointPos([2, 3]);
+          route = getWayPointPos([2, 12]);
           break;
         case "bed":
           route = getWayPointPos([2, 1]);
@@ -254,7 +267,7 @@ function calcRoute(point) {
     case "desk":
       switch (point.name) {
         case "door":
-          route = getWayPointPos([7, 11, 2, 3]);
+          route = getWayPointPos([7, 11, 2, 12]);
           break;
         case "bed":
           route = getWayPointPos([7, 11, 2, 4]);
@@ -275,10 +288,10 @@ function calcRoute(point) {
     case "table":
       switch (point.name) {
         case "door":
-          route = getWayPointPos([4]);
+          route = getWayPointPos([4, 12]);
           break;
         case "bed":
-          route = getWayPointPos([4, 3, 1]);
+          route = getWayPointPos([4, 1]);
           break;
         case "livearea":
           route = getWayPointPos([4, 3, 2]);
@@ -296,10 +309,10 @@ function calcRoute(point) {
     case "kitchen":
       switch (point.name) {
         case "door":
-          route = getWayPointPos([9, 4]);
+          route = getWayPointPos([9, 4, 12]);
           break;
         case "bed":
-          route = getWayPointPos([9, 4, 3, 1]);
+          route = getWayPointPos([9, 4, 1]);
           break;
         case "livearea":
           route = getWayPointPos([9, 4, 3, 2]);
@@ -319,15 +332,67 @@ function calcRoute(point) {
   }
 
   //route
-  route.unshift(player.pos);
   route.push(point.pos);
   return route;
 }
 
-function movingTo(point) {
-  let route = calcRoute(point);
-  player.lastWayPoint = point;
+function curveRoute(route, anmount) {
   console.log(route);
+  for (let i = 0; i < anmount; i++) {
+    let newRoute = [];
+    for (let i = 0; i < route.length; i++) {
+      let cP = {};
+      newRoute.push(route[i]);
+      if (route[i + 1]) {
+        // let range = sqrt(
+        //   (route[i + 1].x - route[i].x) * (route[i + 1].x - route[i].x) +
+        //     (route[i + 1].y - route[i].y)
+        // );
+        let range = sqrt(
+          (route[i + 1].x - route[i].x) * (route[i + 1].x - route[i].x) +
+            (route[i + 1].y - route[i].y)
+        );
+        // range = range / 10000;
+        // console.log(range);
+        range = map(range, 0, 200, 0.2, 0.8);
+        cP.x = (route[i + 1].x + route[i].x) / 2;
+        cP.y = (route[i + 1].y + route[i].y) / 2;
+
+        if (route[i + 1].x > route[i].x) {
+          cP.x = cP.x - range * (cP.x - route[i].x);
+          if (route[i + 1].y > route[i].y) {
+            cP.y = cP.y - range * (cP.y - route[i].y);
+          } else if (route[i + 1].y < route[i].y) {
+            cP.y = cP.y + range * (cP.y - route[i].y);
+          } else {
+            cP.y = cP.y;
+          }
+        } else if (route[i + 1].x < route[i].x) {
+          cP.x = cP.x + range * (cP.x - route[i].x);
+          if (route[i + 1].y > route[i].y) {
+            cP.y = cP.y - range * (cP.y - route[i].y);
+          } else if (route[i + 1].y < route[i].y) {
+            cP.y = cP.y + range * (cP.y - route[i].y);
+          } else {
+            cP.y = cP.y;
+          }
+        } else {
+          cP.x = cP.x;
+        }
+
+        newRoute.push(cP);
+      }
+    }
+    route = newRoute;
+  }
+  console.log(route);
+  return route;
+}
+
+function moveTo(point) {
+  let route = curveRoute(calcRoute(point), config.anmountOfWayPoints);
+  player.lastWayPoint = point;
+  // console.log(route);
   let i = 0;
   let moving = setInterval(function () {
     if (i < route.length) {
@@ -336,7 +401,7 @@ function movingTo(point) {
     } else {
       clearInterval(moving);
     }
-  }, 1000);
+  }, config.speed);
 }
 
 socket.on("sendAreaLive", (payload) => {
@@ -393,12 +458,14 @@ function drawPlayer(route) {
 }
 
 function drawWayPoints() {
-  for (let i = 0; i < wayPoints.length; i++) {
-    fill(255, 0, 0);
-    circle(wayPoints[i].pos.x, wayPoints[i].pos.y, 20);
-    fill(0);
-    textSize(20);
-    text(wayPoints[i].id, wayPoints[i].pos.x, wayPoints[i].pos.y);
+  if (config.showWayPoints) {
+    for (let i = 0; i < wayPoints.length; i++) {
+      fill(255, 0, 0);
+      circle(wayPoints[i].pos.x, wayPoints[i].pos.y, 20);
+      fill(0);
+      textSize(20);
+      text(wayPoints[i].id, wayPoints[i].pos.x, wayPoints[i].pos.y);
+    }
   }
 }
 
