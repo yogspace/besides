@@ -41,4 +41,7 @@ app.get("/ausgabe", (req, res) => {
 
 server.listen(3000, () => {
   console.log("listening on *:3000");
+  console.log(
+    "Input: http://localhost:3000/eingabe\nOutput: http://localhost:3000/ausgabe"
+  );
 });

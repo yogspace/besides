@@ -123,6 +123,13 @@ function mouseMoved() {
       height: sketchHeight,
     },
     mousePos: mousePos,
+    area: {
+      in: false,
+      x: areas[2].pos.x,
+      y: areas[2].pos.y,
+      width: areas[2].pos.width,
+      height: areas[2].pos.height,
+    },
   };
   socket.emit("send", payload);
 
@@ -132,13 +139,14 @@ function mouseMoved() {
     mouseY > areas[2].pos.y - areas[2].pos.height / 2 &&
     mouseY < areas[2].pos.y + areas[2].pos.height / 2
   ) {
-    //   console.log(areas[i].name);
-    socket.emit("sendAreaLive", payload);
+    payload.area.in = true;
+  } else {
+    payload.area.in = false;
   }
+  socket.emit("sendAreaLive", payload);
 }
 
 function mouseClicked() {
-  //   console.log("clicked");
   for (let i = 0; i < areas.length; i++) {
     if (
       mouseX > areas[i].pos.x - areas[i].pos.width / 2 &&
@@ -146,7 +154,6 @@ function mouseClicked() {
       mouseY > areas[i].pos.y - areas[i].pos.height / 2 &&
       mouseY < areas[i].pos.y + areas[i].pos.height / 2
     ) {
-      //   console.log(areas[i].name);
       socket.emit("sendArea", areas[i].name);
     }
   }
