@@ -7,7 +7,7 @@ let backgroundImg;
 let config = {
   speed: 1000,
   anmountOfWayPoints: 2,
-  showWayPoints: true,
+  showWayPoints: false,
 };
 
 let mousePos = {
@@ -15,21 +15,6 @@ let mousePos = {
   y: 0,
 };
 let inputCanvas = {};
-
-let player = {
-  particles: [],
-  pos: {
-    x: -1000,
-    y: -1000,
-  },
-  lastWayPoint: {
-    name: "",
-    pos: {
-      x: 0,
-      y: 0,
-    },
-  },
-};
 
 let wayPoints = [
   //FLUR
@@ -143,6 +128,21 @@ let wayPoints = [
 ];
 
 let routes = [];
+
+let player = {
+  particles: [],
+  pos: {
+    x: wayPoints[0].pos.x,
+    y: wayPoints[0].pos.y,
+  },
+  lastWayPoint: {
+    name: "",
+    pos: {
+      x: 0,
+      y: 0,
+    },
+  },
+};
 
 function preload() {
   backgroundImg = loadImage("./img/Outputwohnung.png");
@@ -390,7 +390,7 @@ function moveTo(point) {
   // let route = curveRoute(calcRoute(point), config.anmountOfWayPoints);
   let route = calcRoute(point);
   player.lastWayPoint = point;
-  // console.log(route);
+  console.log(route);
 
   let i = 0;
   let moving = setInterval(function () {
@@ -457,6 +457,7 @@ function drawPlayer() {
 
   push();
   translate(sketchWidth / 2, sketchHeight / 2);
+  fill(0, 0, 255);
 
   for (let i = 0; i < player.particles.length; i++) {
     player.particles[i].createParticle();

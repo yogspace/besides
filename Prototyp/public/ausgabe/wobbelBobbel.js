@@ -1,8 +1,8 @@
 class Particle {
   constructor() {
-    this.x = random(-70, 70);
-    this.y = random(-70, 70);
-    this.r = random(1, 7);
+    this.x = random(-15, 15);
+    this.y = random(-15, 15);
+    this.r = random(1, 3);
     this.xConstSpeed = random(-1, 1);
     this.yConstSpeed = random(-1, 1);
 
@@ -10,11 +10,22 @@ class Particle {
     this.xEasingSpeed = 0;
     this.yEasingSpeed = 0;
     this.radius = 20;
+    this.display = true;
   }
 
   createParticle() {
     noStroke();
-    circle(this.x, this.y, this.r);
+    if (this.display) {
+      circle(this.x, this.y, this.r);
+    }
+  }
+
+  showParticle(bool) {
+    if (!bool) {
+      this.display = false;
+    } else {
+      this.display = true;
+    }
   }
 
   moveParticle() {
