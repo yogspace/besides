@@ -5,7 +5,7 @@ let sketchHeight = document.getElementById("sketch").offsetHeight;
 let backgroundImg;
 
 let config = {
-  speed: 50,
+  speed: 1000,
   anmountOfWayPoints: 2,
   showWayPoints: true,
 };
@@ -17,6 +17,7 @@ let mousePos = {
 let inputCanvas = {};
 
 let player = {
+  particles: [],
   pos: {
     x: -1000,
     y: -1000,
@@ -152,6 +153,10 @@ function setup() {
   sketchHeight = document.getElementById("sketch").offsetHeight;
   let renderer = createCanvas(sketchWidth, sketchHeight);
   renderer.parent("sketch");
+
+  for (let i = 0; i < 100; i++) {
+    player.particles.push(new Particle());
+  }
 }
 
 function windowResized() {
@@ -380,29 +385,10 @@ function curveRoute(route, anmount) {
   console.log(route);
   return route;
 }
-function addPoints(route, anmount) {
-  // for (let i = 0; i < anmount; i++) {
-  let newRoute = [];
-  for (let i = 0; i < route.length; i++) {
-    let point = {};
-    newRoute.push(route[i]);
-    if (route[i + 1]) {
-      for (let j = 0; j < anmount.length; j++) {
-        //weitere routepoints
-        newRoute.push(point);
-      }
-    }
-  }
-  route = newRoute;
-  // }
-  console.log(route);
-  return route;
-}
 
 function moveTo(point) {
   // let route = curveRoute(calcRoute(point), config.anmountOfWayPoints);
   let route = calcRoute(point);
-  route = addPoints(route, config.anmountOfWayPoints);
   player.lastWayPoint = point;
   // console.log(route);
 
@@ -461,13 +447,22 @@ function mapLiveArea(area) {
   player.pos = pos;
 }
 
-function drawPlayer(route) {
-  fill(0, 0, 255);
-  stroke(0, 150, 0);
-  strokeWeight(10);
-  line(player.pos.x, player.pos.y - 30, player.pos.x, player.pos.y + 30);
-  noStroke();
-  circle(player.pos.x, player.pos.y, 30);
+function drawPlayer() {
+  // fill(0, 0, 255);
+  // stroke(0, 150, 0);
+  // strokeWeight(10);
+  // line(player.pos.x, player.pos.y - 30, player.pos.x, player.pos.y + 30);
+  // noStroke();
+  // circle(player.pos.x, player.pos.y, 30);
+
+  push();
+  translate(sketchWidth / 2, sketchHeight / 2);
+
+  for (let i = 0; i < player.particles.length; i++) {
+    player.particles[i].createParticle();
+    player.particles[i].moveParticle();
+  }
+  pop();
 }
 
 function drawWayPoints() {
