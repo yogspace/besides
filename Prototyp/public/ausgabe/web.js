@@ -5,9 +5,9 @@ let sketchHeight = document.getElementById("sketch").offsetHeight;
 let backgroundImg;
 
 let config = {
-  speed: 100,
-  anmountOfWayPoints: 1,
-  showWayPoints: false,
+  speed: 50,
+  anmountOfWayPoints: 2,
+  showWayPoints: true,
 };
 
 let mousePos = {
@@ -330,30 +330,22 @@ function calcRoute(point) {
     default:
       break;
   }
-
-  //route
   route.push(point.pos);
   return route;
 }
 
 function curveRoute(route, anmount) {
-  console.log(route);
   for (let i = 0; i < anmount; i++) {
     let newRoute = [];
     for (let i = 0; i < route.length; i++) {
       let cP = {};
       newRoute.push(route[i]);
       if (route[i + 1]) {
-        // let range = sqrt(
-        //   (route[i + 1].x - route[i].x) * (route[i + 1].x - route[i].x) +
-        //     (route[i + 1].y - route[i].y)
-        // );
         let range = sqrt(
           (route[i + 1].x - route[i].x) * (route[i + 1].x - route[i].x) +
             (route[i + 1].y - route[i].y)
         );
-        // range = range / 10000;
-        // console.log(range);
+
         range = map(range, 0, 200, 0.2, 0.8);
         cP.x = (route[i + 1].x + route[i].x) / 2;
         cP.y = (route[i + 1].y + route[i].y) / 2;
@@ -388,11 +380,32 @@ function curveRoute(route, anmount) {
   console.log(route);
   return route;
 }
+function addPoints(route, anmount) {
+  // for (let i = 0; i < anmount; i++) {
+  let newRoute = [];
+  for (let i = 0; i < route.length; i++) {
+    let point = {};
+    newRoute.push(route[i]);
+    if (route[i + 1]) {
+      for (let j = 0; j < anmount.length; j++) {
+        //weitere routepoints
+        newRoute.push(point);
+      }
+    }
+  }
+  route = newRoute;
+  // }
+  console.log(route);
+  return route;
+}
 
 function moveTo(point) {
-  let route = curveRoute(calcRoute(point), config.anmountOfWayPoints);
+  // let route = curveRoute(calcRoute(point), config.anmountOfWayPoints);
+  let route = calcRoute(point);
+  route = addPoints(route, config.anmountOfWayPoints);
   player.lastWayPoint = point;
   // console.log(route);
+
   let i = 0;
   let moving = setInterval(function () {
     if (i < route.length) {

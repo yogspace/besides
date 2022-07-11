@@ -2,6 +2,7 @@ let socket = io();
 
 let sketchWidth = document.getElementById("sketch").offsetWidth;
 let sketchHeight = document.getElementById("sketch").offsetHeight;
+let sketch = document.getElementById("sketch");
 let backgroundImg;
 
 let mousePos = {
