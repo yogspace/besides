@@ -3,6 +3,15 @@ let socket = io();
 let sketchWidth = document.getElementById("sketch").offsetWidth;
 let sketchHeight = document.getElementById("sketch").offsetHeight;
 let backgroundImg;
+let fazitImg;
+let ideeImg;
+let prototypeImg;
+let visualImg;
+
+let route;
+
+let info = "default";
+let infoMode = false;
 
 let config = {
   speed: 1000,
@@ -17,7 +26,7 @@ let mousePos = {
 
 let areas = [
   {
-    name: "door",
+    name: "idee",
     pos: {
       x: sketchWidth / 2 - sketchWidth * 0.038,
       y: sketchHeight - sketchHeight * 0.15,
@@ -37,7 +46,7 @@ let areas = [
     color: [255, 0, 0],
   },
   {
-    name: "desk",
+    name: "prototype",
     pos: {
       x: sketchWidth - sketchWidth * 0.5,
       y: sketchHeight / 2 - sketchHeight * 0.3,
@@ -48,7 +57,7 @@ let areas = [
     color: [0, 255, 0],
   },
   {
-    name: "bed",
+    name: "fazit",
     pos: {
       x: sketchWidth - sketchWidth * 0.807,
       y: sketchHeight * 0.28,
@@ -68,7 +77,7 @@ let areas = [
     color: [0, 0, 255],
   },
   {
-    name: "mirror",
+    name: "visual",
     pos: {
       x: sketchWidth * 0.166,
       y: sketchHeight - sketchHeight * 0.42,
@@ -81,12 +90,25 @@ let areas = [
   },
 ];
 
+let close = [
+  {
+    name: "close",
+    pos: {
+      x: sketchWidth / 2 + sketchWidth * 0.4,
+      y: sketchHeight - sketchHeight * 0.05,
+      width: sketchWidth * 0.085,
+      height: sketchHeight * 0.05,
+    },
+    color: [255, 255, 0],
+  },
+];
+
 let inputCanvas = {};
 
 let wayPoints = [
   //FLUR
   {
-    name: "door",
+    name: "idee",
     id: 0,
     pos: {
       x: sketchWidth / 2 - sketchWidth * 0.04,
@@ -136,7 +158,7 @@ let wayPoints = [
   },
   //SCHLAFZIMMER
   {
-    name: "bed",
+    name: "fazit",
     id: 5,
     pos: {
       x: sketchWidth * 0.28,
@@ -153,7 +175,7 @@ let wayPoints = [
     },
   },
   {
-    name: "desk",
+    name: "prototype",
     id: 8,
     pos: {
       x: sketchWidth - sketchWidth * 0.09,
@@ -170,7 +192,7 @@ let wayPoints = [
     },
   },
   {
-    name: "mirror",
+    name: "visual",
     id: 10,
     pos: {
       x: sketchWidth - sketchWidth * 0.32,
@@ -223,6 +245,7 @@ let wayPoints = [
 
 function mouseClicked() {
   move();
+  closeTab();
 }
 
 function move() {
@@ -234,6 +257,22 @@ function move() {
       mouseY < areas[i].pos.y + areas[i].pos.height / 2
     ) {
       socket.emit("sendArea", areas[i].name);
+      info = areas[i].name;
+      infoMode = true;
+    }
+  }
+}
+
+function closeTab() {
+  for (let i = 0; i < close.length; i++) {
+    if (
+      mouseX > close[i].pos.x - close[i].pos.width / 2 &&
+      mouseX < close[i].pos.x + close[i].pos.width / 2 &&
+      mouseY > close[i].pos.y - close[i].pos.height / 2 &&
+      mouseY < close[i].pos.y + close[i].pos.height / 2
+    ) {
+      info = "default";
+      infoMode = false;
     }
   }
 }
@@ -261,6 +300,23 @@ function drawAreas() {
   }
 }
 
+function drawClose() {
+  for (let i = 0; i < close.length; i++) {
+    let c = color(
+      Number(close[i].color[0]),
+      Number(close[i].color[1]),
+      Number(close[i].color[2])
+    );
+    fill(c);
+    rect(
+      close[i].pos.x,
+      close[i].pos.y,
+      close[i].pos.width,
+      close[i].pos.height
+    );
+  }
+}
+
 function drawBackround() {
   noStroke();
   background(255, 255, 255);
@@ -282,10 +338,17 @@ let player = {
       y: 0,
     },
   },
+  wayPoint: {
+    name: "",
+  },
 };
 
 function preload() {
   backgroundImg = loadImage("./assets/img/Outputwohnung.png");
+  fazitImg = loadImage("./assets/img/fazit.svg");
+  ideeImg = loadImage("./assets/img/idee.svg");
+  prototypeImg = loadImage("./assets/img/prototype.svg");
+  visualImg = loadImage("./assets/img/visual.svg");
 }
 
 function setup() {
@@ -309,12 +372,32 @@ function windowResized() {
 
 function draw() {
   clear();
+
   drawBackround();
   drawWayPoints();
   // drawCircle();
   drawPlayer();
-
   drawAreas();
+
+  //es muss mit Zeitversatz gearbeitet werden!!!
+  if (player.pos === route[route.length - 1] && infoMode === true) {
+  }
+
+  if (info === "fazit") {
+    image(fazitImg, 0, 0, sketchWidth, sketchHeight);
+    drawClose();
+  }
+  if (info === "idee") {
+    image(ideeImg, 0, 0, sketchWidth, sketchHeight);
+  }
+  if (info === "prototype") {
+    image(prototypeImg, 0, 0, sketchWidth, sketchHeight);
+    drawClose();
+  }
+  if (info === "visual") {
+    image(visualImg, 0, 0, sketchWidth, sketchHeight);
+    drawClose();
+  }
 }
 
 moveTo(wayPoints[0]);
@@ -348,56 +431,56 @@ function getWayPointPos(ids) {
 }
 
 function calcRoute(point) {
-  let route = [];
+  route = [];
   switch (player.lastWayPoint.name) {
-    case "door":
+    case "idee":
       switch (point.name) {
-        case "bed":
+        case "fazit":
           route = getWayPointPos([12, 1]);
           break;
-        case "desk":
+        case "prototype":
           route = getWayPointPos([12, 2, 11, 7]);
           break;
         case "team":
           route = getWayPointPos([12, 4]);
           break;
-        case "mirror":
+        case "visual":
           route = getWayPointPos([12, 4, 9]);
           break;
         default:
           break;
       }
       break;
-    case "bed":
+    case "fazit":
       switch (point.name) {
-        case "door":
+        case "idee":
           route = getWayPointPos([1, 12]);
           break;
-        case "desk":
+        case "prototype":
           route = getWayPointPos([1, 2, 11, 7]);
           break;
         case "team":
           route = getWayPointPos([1, 3, 4]);
           break;
-        case "mirror":
+        case "visual":
           route = getWayPointPos([1, 4, 9]);
           break;
         default:
           break;
       }
       break;
-    case "desk":
+    case "prototype":
       switch (point.name) {
-        case "door":
+        case "idee":
           route = getWayPointPos([7, 11, 2, 12]);
           break;
-        case "bed":
+        case "fazit":
           route = getWayPointPos([7, 11, 2, 4]);
           break;
         case "team":
           route = getWayPointPos([7, 11, 2, 3, 4]);
           break;
-        case "mirror":
+        case "visual":
           route = getWayPointPos([7, 11, 2, 3, 4, 9]);
           break;
         default:
@@ -406,31 +489,31 @@ function calcRoute(point) {
       break;
     case "team":
       switch (point.name) {
-        case "door":
+        case "idee":
           route = getWayPointPos([4, 12]);
           break;
-        case "bed":
+        case "fazit":
           route = getWayPointPos([4, 1]);
           break;
-        case "desk":
+        case "prototype":
           route = getWayPointPos([4, 3, 2, 11, 7]);
           break;
-        case "mirror":
+        case "visual":
           route = getWayPointPos([]);
           break;
         default:
           break;
       }
       break;
-    case "mirror":
+    case "visual":
       switch (point.name) {
-        case "door":
+        case "idee":
           route = getWayPointPos([9, 4, 12]);
           break;
-        case "bed":
+        case "fazit":
           route = getWayPointPos([9, 4, 1]);
           break;
-        case "desk":
+        case "prototype":
           route = getWayPointPos([9, 4, 3, 2, 11, 7]);
           break;
         case "team":
@@ -496,7 +579,7 @@ function curveRoute(route, anmount) {
 
 function moveTo(point) {
   // let route = curveRoute(calcRoute(point), config.anmountOfWayPoints);
-  let route = calcRoute(point);
+  route = calcRoute(point);
   player.lastWayPoint = point;
   console.log(route);
 
