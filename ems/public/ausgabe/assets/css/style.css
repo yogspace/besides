@@ -40,7 +40,7 @@ main {
   font-size: 40px;
   font-weight: 100;
   text-align: right;
-  padding: 0;
+  padding-left: 20px;
 }
 
 .overlay {
@@ -79,4 +79,8 @@ main {
 #overlayVisual {
   background-image: url("../img/idee_background.jpg");
   display: none; /* Hidden by default */
+}
+
+h1 {
+  padding: 0;
 }
