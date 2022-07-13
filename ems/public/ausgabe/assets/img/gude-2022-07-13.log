@@ -1,0 +1,7 @@
+12:35:49:347 [WARN]	Request Failed. ErrorCode: 100000 errorMessage: Platform Status, Failed to Read HTTP Response Data. Der Vorgang wurde erfolgreich beendet.
+, last error code = 0 
+13:10:55:384 [WARN]	Request Failed. ErrorCode: 112007 errorMessage: Platform Status, Send Request Failed. WinHTTP Name Not Resolved. last error code = 12007 
+13:11:07:421 [WARN]	Request Failed. ErrorCode: 112007 errorMessage: Platform Status, Send Request Failed. WinHTTP Name Not Resolved. last error code = 12007 
+13:11:09:488 [WARN]	Request Failed. ErrorCode: 112007 errorMessage: Platform Status, Send Request Failed. WinHTTP Name Not Resolved. last error code = 12007 
+13:11:42:773 [WARN]	Request Failed. ErrorCode: 100000 errorMessage: Platform Status, Failed to Read HTTP Response Data. Der Vorgang wurde erfolgreich beendet.
+, last error code = 0 

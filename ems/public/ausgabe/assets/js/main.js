@@ -8,6 +8,8 @@ let ideeImg;
 let prototypeImg;
 let visualImg;
 
+let time = 0;
+
 let route;
 
 let info = "default";
@@ -28,7 +30,7 @@ let areas = [
   {
     name: "idee",
     pos: {
-      x: sketchWidth / 2 - sketchWidth * 0.038,
+      x: sketchWidth / 2 + sketchWidth * 0.038,
       y: sketchHeight - sketchHeight * 0.15,
       width: sketchWidth * 0.085,
       height: sketchHeight * 0.05,
@@ -90,19 +92,6 @@ let areas = [
   },
 ];
 
-let close = [
-  {
-    name: "close",
-    pos: {
-      x: sketchWidth / 2 + sketchWidth * 0.4,
-      y: sketchHeight - sketchHeight * 0.05,
-      width: sketchWidth * 0.085,
-      height: sketchHeight * 0.05,
-    },
-    color: [255, 255, 0],
-  },
-];
-
 let inputCanvas = {};
 
 let wayPoints = [
@@ -111,8 +100,8 @@ let wayPoints = [
     name: "idee",
     id: 0,
     pos: {
-      x: sketchWidth / 2 - sketchWidth * 0.04,
-      y: sketchHeight - sketchHeight * 0.18,
+      x: sketchWidth / 2 + sketchWidth * 0.04,
+      y: sketchHeight - sketchHeight * 0.19,
     },
   },
   //   {
@@ -124,35 +113,35 @@ let wayPoints = [
   {
     id: 1,
     pos: {
-      x: sketchWidth / 2 - sketchWidth * 0.12,
-      y: sketchHeight / 2 - sketchHeight * 0.038,
+      x: sketchWidth / 2 - sketchWidth * 0.13,
+      y: sketchHeight / 2 + sketchHeight * 0.13,
     },
   },
   {
     id: 2,
     pos: {
-      x: sketchWidth / 2 + sketchWidth * 0.05,
+      x: sketchWidth / 2 - sketchWidth * 0.13,
       y: sketchHeight / 2 - sketchHeight * 0.038,
     },
   },
   {
     id: 3,
     pos: {
-      x: sketchWidth / 2 + sketchWidth * 0.02,
-      y: sketchHeight / 2 + sketchWidth * 0.015,
+      x: sketchWidth / 2 - sketchWidth * 0.02,
+      y: sketchHeight / 2 - sketchWidth * 0.065,
     },
   },
   {
     id: 12,
     pos: {
-      x: sketchWidth / 2 - sketchWidth * 0.032,
-      y: sketchHeight / 2 + sketchWidth * 0.12,
+      x: sketchWidth / 2 - sketchWidth * 0.03,
+      y: sketchHeight / 2 + sketchWidth * 0.05,
     },
   },
   {
     id: 4,
     pos: {
-      x: sketchWidth / 2 + sketchWidth * 0.05,
+      x: sketchWidth / 2 + sketchWidth * 0.06,
       y: sketchHeight / 2 + sketchHeight * 0.08,
     },
   },
@@ -161,8 +150,8 @@ let wayPoints = [
     name: "fazit",
     id: 5,
     pos: {
-      x: sketchWidth * 0.28,
-      y: sketchHeight * 0.35,
+      x: sketchWidth * 0.2,
+      y: sketchHeight * 0.2,
     },
   },
   //WOHNZIMMER
@@ -170,16 +159,16 @@ let wayPoints = [
   {
     id: 7,
     pos: {
-      x: sketchWidth - sketchWidth * 0.2,
-      y: sketchHeight * 0.25,
+      x: sketchWidth - sketchWidth * 0.435,
+      y: sketchHeight * 0.46,
     },
   },
   {
     name: "prototype",
     id: 8,
     pos: {
-      x: sketchWidth - sketchWidth * 0.09,
-      y: sketchHeight * 0.33,
+      x: sketchWidth / 2 + sketchWidth * 0.005,
+      y: sketchHeight * 0.2,
     },
   },
   //KÜCHE
@@ -187,24 +176,39 @@ let wayPoints = [
     name: "team",
     id: 9,
     pos: {
-      x: sketchWidth - sketchWidth * 0.35,
-      y: sketchHeight - sketchHeight * 0.35,
+      x: sketchWidth - sketchWidth * 0.3,
+      y: sketchHeight - sketchHeight * 0.4,
     },
   },
   {
     name: "visual",
     id: 10,
     pos: {
-      x: sketchWidth - sketchWidth * 0.32,
-      y: sketchHeight - sketchHeight * 0.22,
+      x: sketchWidth / 2 - sketchWidth * 0.33,
+      y: sketchHeight - sketchHeight * 0.41,
     },
   },
   {
-    name: "la",
+    name: "trailer",
     id: 11,
     pos: {
-      x: sketchWidth - sketchWidth * 0.318,
-      y: sketchHeight * 0.316,
+      x: sketchWidth - sketchWidth * 0.25,
+      y: sketchHeight * 0.19,
+    },
+  },
+  {
+    name: "start",
+    id: 6,
+    pos: {
+      x: sketchWidth / 2 - sketchWidth * 0.04,
+      y: sketchHeight * 0.93,
+    },
+  },
+  {
+    id: 13,
+    pos: {
+      x: sketchWidth / 2 - sketchWidth * 0.04,
+      y: sketchHeight * 0.87,
     },
   },
 ];
@@ -245,7 +249,6 @@ let wayPoints = [
 
 function mouseClicked() {
   move();
-  closeTab();
 }
 
 function move() {
@@ -259,20 +262,6 @@ function move() {
       socket.emit("sendArea", areas[i].name);
       info = areas[i].name;
       infoMode = true;
-    }
-  }
-}
-
-function closeTab() {
-  for (let i = 0; i < close.length; i++) {
-    if (
-      mouseX > close[i].pos.x - close[i].pos.width / 2 &&
-      mouseX < close[i].pos.x + close[i].pos.width / 2 &&
-      mouseY > close[i].pos.y - close[i].pos.height / 2 &&
-      mouseY < close[i].pos.y + close[i].pos.height / 2
-    ) {
-      info = "default";
-      infoMode = false;
     }
   }
 }
@@ -300,23 +289,6 @@ function drawAreas() {
   }
 }
 
-function drawClose() {
-  for (let i = 0; i < close.length; i++) {
-    let c = color(
-      Number(close[i].color[0]),
-      Number(close[i].color[1]),
-      Number(close[i].color[2])
-    );
-    fill(c);
-    rect(
-      close[i].pos.x,
-      close[i].pos.y,
-      close[i].pos.width,
-      close[i].pos.height
-    );
-  }
-}
-
 function drawBackround() {
   noStroke();
   background(255, 255, 255);
@@ -328,8 +300,8 @@ let routes = [];
 let player = {
   particles: [],
   pos: {
-    x: wayPoints[0].pos.x,
-    y: wayPoints[0].pos.y,
+    x: wayPoints[12].pos.x,
+    y: wayPoints[12].pos.y,
   },
   lastWayPoint: {
     name: "",
@@ -346,7 +318,7 @@ let player = {
 function preload() {
   backgroundImg = loadImage("./assets/img/Outputwohnung.png");
   fazitImg = loadImage("./assets/img/fazit.svg");
-  ideeImg = loadImage("./assets/img/idee.svg");
+  ideeImg = loadImage("./assets/img/idee.png");
   prototypeImg = loadImage("./assets/img/prototype.svg");
   visualImg = loadImage("./assets/img/visual.svg");
 }
@@ -374,33 +346,77 @@ function draw() {
   clear();
 
   drawBackround();
-  drawWayPoints();
+
   // drawCircle();
-  drawPlayer();
+
   drawAreas();
+  drawWayPoints();
+  drawPlayer();
 
   //es muss mit Zeitversatz gearbeitet werden!!!
-  if (player.pos === route[route.length - 1] && infoMode === true) {
-  }
-
-  if (info === "fazit") {
-    image(fazitImg, 0, 0, sketchWidth, sketchHeight);
-    drawClose();
-  }
-  if (info === "idee") {
-    image(ideeImg, 0, 0, sketchWidth, sketchHeight);
-  }
-  if (info === "prototype") {
-    image(prototypeImg, 0, 0, sketchWidth, sketchHeight);
-    drawClose();
-  }
-  if (info === "visual") {
-    image(visualImg, 0, 0, sketchWidth, sketchHeight);
-    drawClose();
+  if (
+    player.pos === route[route.length - 1] &&
+    infoMode === true &&
+    info === player.lastWayPoint.name
+  ) {
+    time++;
+    if (time > 200) {
+      if (info === "fazit") {
+        on("overlayFazit");
+      } else if (info === "idee") {
+        // image(ideeImg, 0, 0, sketchWidth, sketchHeight);
+        on("overlayIdee");
+      } else if (info === "prototype") {
+        on("overlayPrototype");
+      } else if (info === "visual") {
+        on("overlayVisual");
+      } else if (info === "team") {
+        on("overlayTeam");
+      } else if (info === "trailer") {
+        on("overlayTrailer");
+      }
+    }
   }
 }
 
-moveTo(wayPoints[0]);
+function on(overlayName) {
+  document.getElementById(overlayName).style.display = "block";
+}
+
+function off(overlayName) {
+  document.getElementById(overlayName).style.display = "none";
+}
+
+document.getElementById("close1").addEventListener("click", function () {
+  off("overlayIdee");
+  info = "default";
+});
+
+document.getElementById("close2").addEventListener("click", function () {
+  off("overlayFazit");
+});
+
+document.getElementById("close3").addEventListener("click", function () {
+  off("overlayPrototype");
+  info = "default";
+});
+
+document.getElementById("close4").addEventListener("click", function () {
+  off("overlayTrailer");
+  info = "default";
+});
+
+document.getElementById("close5").addEventListener("click", function () {
+  off("overlayTeam");
+  info = "default";
+});
+
+document.getElementById("close6").addEventListener("click", function () {
+  off("overlayVisual");
+  info = "default";
+});
+
+moveTo(wayPoints[12]);
 
 socket.on("send", (payload) => {
   mousePos = payload.mousePos;
@@ -433,19 +449,46 @@ function getWayPointPos(ids) {
 function calcRoute(point) {
   route = [];
   switch (player.lastWayPoint.name) {
-    case "idee":
+    case "start":
       switch (point.name) {
         case "fazit":
-          route = getWayPointPos([12, 1]);
+          route = getWayPointPos([13, 12, 2, 5]);
           break;
         case "prototype":
-          route = getWayPointPos([12, 2, 11, 7]);
+          route = getWayPointPos([13, 12, 3, 8]);
           break;
         case "team":
-          route = getWayPointPos([12, 4]);
+          route = getWayPointPos([13, 12, 4, 9]);
           break;
         case "visual":
+          route = getWayPointPos([13, 12, 1, 10]);
+          break;
+        case "trailer":
+          route = getWayPointPos([13, 12, 7, 11]);
+          break;
+        case "idee":
+          route = getWayPointPos([13, 0]);
+          break;
+        default:
+          break;
+      }
+      break;
+    case "idee":
+      switch (point.name) {
+        case "trailer":
+          route = getWayPointPos([12, 7, 11]);
+          break;
+        case "fazit":
+          route = getWayPointPos([12, 2, 5]);
+          break;
+        case "prototype":
+          route = getWayPointPos([12, 3, 8]);
+          break;
+        case "team":
           route = getWayPointPos([12, 4, 9]);
+          break;
+        case "visual":
+          route = getWayPointPos([12, 1, 10]);
           break;
         default:
           break;
@@ -454,16 +497,19 @@ function calcRoute(point) {
     case "fazit":
       switch (point.name) {
         case "idee":
-          route = getWayPointPos([1, 12]);
+          route = getWayPointPos([2, 12, 0]);
           break;
         case "prototype":
-          route = getWayPointPos([1, 2, 11, 7]);
+          route = getWayPointPos([2, 12, 9, 8]);
           break;
         case "team":
-          route = getWayPointPos([1, 3, 4]);
+          route = getWayPointPos([2, 12, 4, 9]);
           break;
         case "visual":
-          route = getWayPointPos([1, 4, 9]);
+          route = getWayPointPos([2, 12, 1, 10]);
+          break;
+        case "trailer":
+          route = getWayPointPos([2, 12, 7, 11]);
           break;
         default:
           break;
@@ -472,17 +518,21 @@ function calcRoute(point) {
     case "prototype":
       switch (point.name) {
         case "idee":
-          route = getWayPointPos([7, 11, 2, 12]);
+          route = getWayPointPos([3, 12, 0]);
           break;
         case "fazit":
-          route = getWayPointPos([7, 11, 2, 4]);
+          route = getWayPointPos([3, 2, 5]);
           break;
         case "team":
-          route = getWayPointPos([7, 11, 2, 3, 4]);
+          route = getWayPointPos([3, 12, 4, 9]);
           break;
         case "visual":
-          route = getWayPointPos([7, 11, 2, 3, 4, 9]);
+          route = getWayPointPos([3, 12, 1, 10]);
           break;
+        case "trailer":
+          route = getWayPointPos([3, 7, 11]);
+          break;
+
         default:
           break;
       }
@@ -490,16 +540,19 @@ function calcRoute(point) {
     case "team":
       switch (point.name) {
         case "idee":
-          route = getWayPointPos([4, 12]);
+          route = getWayPointPos([4, 12, 0]);
           break;
         case "fazit":
-          route = getWayPointPos([4, 1]);
+          route = getWayPointPos([4, 12, 2, 5]);
           break;
         case "prototype":
-          route = getWayPointPos([4, 3, 2, 11, 7]);
+          route = getWayPointPos([4, 12, 3, 8]);
           break;
         case "visual":
-          route = getWayPointPos([]);
+          route = getWayPointPos([4, 12, 1, 10]);
+          break;
+        case "trailer":
+          route = getWayPointPos([4, 12, 7, 11]);
           break;
         default:
           break;
@@ -508,16 +561,40 @@ function calcRoute(point) {
     case "visual":
       switch (point.name) {
         case "idee":
-          route = getWayPointPos([9, 4, 12]);
+          route = getWayPointPos([1, 0]);
           break;
         case "fazit":
-          route = getWayPointPos([9, 4, 1]);
+          route = getWayPointPos([1, 12, 2, 5]);
           break;
         case "prototype":
-          route = getWayPointPos([9, 4, 3, 2, 11, 7]);
+          route = getWayPointPos([1, 12, 3, 8]);
           break;
         case "team":
-          route = getWayPointPos([]);
+          route = getWayPointPos([1, 12, 4, 9]);
+          break;
+        case "trailer":
+          route = getWayPointPos([1, 12, 7, 11]);
+          break;
+        default:
+          break;
+      }
+    case "trailer":
+      switch (point.name) {
+        case "idee":
+          route = getWayPointPos([7, 12, 0]);
+          break;
+        case "fazit":
+          route = getWayPointPos([7, 2, 5]);
+          break;
+        case "prototype":
+          route = getWayPointPos([7, 3, 8]);
+          break;
+        case "team":
+          route = getWayPointPos([7, 12, 4, 9]);
+          break;
+
+        case "visual":
+          route = getWayPointPos([7, 12, 1, 10]);
           break;
         default:
           break;
@@ -530,55 +607,7 @@ function calcRoute(point) {
   return route;
 }
 
-function curveRoute(route, anmount) {
-  for (let i = 0; i < anmount; i++) {
-    let newRoute = [];
-    for (let i = 0; i < route.length; i++) {
-      let cP = {};
-      newRoute.push(route[i]);
-      if (route[i + 1]) {
-        let range = sqrt(
-          (route[i + 1].x - route[i].x) * (route[i + 1].x - route[i].x) +
-            (route[i + 1].y - route[i].y)
-        );
-
-        range = map(range, 0, 200, 0.2, 0.8);
-        cP.x = (route[i + 1].x + route[i].x) / 2;
-        cP.y = (route[i + 1].y + route[i].y) / 2;
-
-        if (route[i + 1].x > route[i].x) {
-          cP.x = cP.x - range * (cP.x - route[i].x);
-          if (route[i + 1].y > route[i].y) {
-            cP.y = cP.y - range * (cP.y - route[i].y);
-          } else if (route[i + 1].y < route[i].y) {
-            cP.y = cP.y + range * (cP.y - route[i].y);
-          } else {
-            cP.y = cP.y;
-          }
-        } else if (route[i + 1].x < route[i].x) {
-          cP.x = cP.x + range * (cP.x - route[i].x);
-          if (route[i + 1].y > route[i].y) {
-            cP.y = cP.y - range * (cP.y - route[i].y);
-          } else if (route[i + 1].y < route[i].y) {
-            cP.y = cP.y + range * (cP.y - route[i].y);
-          } else {
-            cP.y = cP.y;
-          }
-        } else {
-          cP.x = cP.x;
-        }
-
-        newRoute.push(cP);
-      }
-    }
-    route = newRoute;
-  }
-  console.log(route);
-  return route;
-}
-
 function moveTo(point) {
-  // let route = curveRoute(calcRoute(point), config.anmountOfWayPoints);
   route = calcRoute(point);
   player.lastWayPoint = point;
   console.log(route);
