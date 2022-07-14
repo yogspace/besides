@@ -189,6 +189,6 @@ function drawAreas() {
 
 function drawBackround() {
   noStroke();
-  background(255, 255, 255);
+  background(0, 0, 0);
   image(backgroundImg, 0, 0, sketchWidth, sketchHeight);
 }
