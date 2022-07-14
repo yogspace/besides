@@ -345,10 +345,8 @@ function windowResized() {
 function draw() {
   clear();
 
-  drawBackround();
-
   // drawCircle();
-
+  drawBackround();
   drawAreas();
   drawWayPoints();
   drawPlayer();
@@ -363,17 +361,23 @@ function draw() {
     if (time > 200) {
       if (info === "fazit") {
         on("overlayFazit");
+        off("sketch");
       } else if (info === "idee") {
         // image(ideeImg, 0, 0, sketchWidth, sketchHeight);
         on("overlayIdee");
+        off("sketch");
       } else if (info === "prototype") {
         on("overlayPrototype");
+        off("sketch");
       } else if (info === "visual") {
         on("overlayVisual");
+        off("sketch");
       } else if (info === "team") {
         on("overlayTeam");
+        off("sketch");
       } else if (info === "trailer") {
         on("overlayTrailer");
+        off("sketch");
       }
     }
   }
@@ -390,30 +394,37 @@ function off(overlayName) {
 document.getElementById("close1").addEventListener("click", function () {
   off("overlayIdee");
   info = "default";
+  on("sketch");
 });
 
 document.getElementById("close2").addEventListener("click", function () {
   off("overlayFazit");
+  info = "default";
+  on("sketch");
 });
 
 document.getElementById("close3").addEventListener("click", function () {
   off("overlayPrototype");
   info = "default";
+  on("sketch");
 });
 
 document.getElementById("close4").addEventListener("click", function () {
   off("overlayTrailer");
   info = "default";
+  on("sketch");
 });
 
 document.getElementById("close5").addEventListener("click", function () {
   off("overlayTeam");
   info = "default";
+  on("sketch");
 });
 
 document.getElementById("close6").addEventListener("click", function () {
   off("overlayVisual");
   info = "default";
+  on("sketch");
 });
 
 moveTo(wayPoints[12]);

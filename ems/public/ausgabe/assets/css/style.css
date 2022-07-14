@@ -44,43 +44,59 @@ main {
 }
 
 .overlay {
-  position: fixed; /* Sit on top of the page content */
-
+  position: absolute;
   width: 100%; /* Full width (cover the whole page) */
   height: 100%; /* Full height (cover the whole page) */
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer;
 }
 
 #overlayIdee {
   background-image: url("../img/idee_background.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
   display: none; /* Hidden by default */
 }
 #overlayFazit {
   background-image: url("../img/idee_background.jpg");
+  background-size: contain;
+  height: 100%;
+  background-repeat: no-repeat;
   display: none; /* Hidden by default */
 }
 #overlayTeam {
   background-image: url("../img/idee_background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
   display: none; /* Hidden by default */
 }
 #overlayTrailer {
   background-image: url("../img/idee_background.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100%;
   display: none; /* Hidden by default */
 }
 #overlayPrototype {
   background-image: url("../img/idee_background.jpg");
+  background-size: contain;
+  height: 100%;
+  background-repeat: no-repeat;
   display: none; /* Hidden by default */
 }
 #overlayVisual {
   background-image: url("../img/idee_background.jpg");
+  background-size: contain;
+  height: 100%;
+  background-repeat: no-repeat;
   display: none; /* Hidden by default */
 }
 
-h1 {
-  padding: 0;
+.ani {
+  width: 100%;
+  height: 100%;
 }
