@@ -55,10 +55,10 @@ let areas = [
   {
     name: "bed",
     pos: {
-      x: sketchWidth - sketchWidth * 0.166,
-      y: sketchHeight * 0.378,
-      width: sketchWidth * 0.135,
-      height: sketchHeight * 0.232,
+      x: sketchWidth - sketchWidth * 0.167,
+      y: sketchHeight * 0.388,
+      width: sketchWidth * 0.145,
+      height: sketchHeight * 0.26,
     },
     color: [255, 0, 255],
   },
@@ -109,7 +109,7 @@ function windowResized() {
 function draw() {
   clear();
   drawBackround();
-  drawAreas();
+  // drawAreas();
   // drawCircle();
 }
 
@@ -190,5 +190,6 @@ function drawAreas() {
 function drawBackround() {
   noStroke();
   background(0, 0, 0);
+  // background(255, 255, 255);
   image(backgroundImg, 0, 0, sketchWidth, sketchHeight);
 }

@@ -3,8 +3,8 @@ class Particle {
     this.x = random(-15, 15);
     this.y = random(-15, 15);
     this.r = random(1, 3);
-    this.xConstSpeed = random(-1, 1);
-    this.yConstSpeed = random(-1, 1);
+    this.xConstSpeed = random(-5, 5);
+    this.yConstSpeed = random(-5, 5);
 
     this.easing = random(0.01, 0.03);
     this.xEasingSpeed = 0;

@@ -5,7 +5,7 @@ let sketchHeight = document.getElementById("sketch").offsetHeight;
 let backgroundImg;
 
 let config = {
-  speed: 1000,
+  speed: 600,
   anmountOfWayPoints: 2,
   showWayPoints: false,
 };
@@ -486,7 +486,7 @@ function drawCircle() {
 
 function drawBackround() {
   noStroke();
-  // background(0, 0, 0);
-  background(255, 255, 255);
+  background(0, 0, 0);
+  // background(255, 255, 255);
   image(backgroundImg, 0, 0, sketchWidth, sketchHeight);
 }
