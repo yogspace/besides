@@ -155,7 +155,7 @@ function setup() {
   renderer.parent("sketch");
 
   for (let i = 0; i < 100; i++) {
-    player.particles.push(new Particle());
+    player.particles.push(new Particle(player.pos.x, player.pos.y));
   }
 }
 
@@ -462,6 +462,7 @@ function drawPlayer() {
   for (let i = 0; i < player.particles.length; i++) {
     player.particles[i].createParticle();
     player.particles[i].moveParticle();
+    player.particles[i].setPos(player.pos.x, player.pos.y);
   }
   pop();
 }

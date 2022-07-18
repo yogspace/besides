@@ -1,10 +1,12 @@
 class Particle {
-  constructor() {
+  constructor(xPos, yPos) {
+    this.xPos = xPos;
+    this.yPos = yPos;
     this.x = random(-15, 15);
     this.y = random(-15, 15);
     this.r = random(1, 3);
-    this.xConstSpeed = random(-1, 1);
-    this.yConstSpeed = random(-1, 1);
+    this.xConstSpeed = random(-1.5, 1.5);
+    this.yConstSpeed = random(-1.5, 1.5);
 
     this.easing = random(0.01, 0.03);
     this.xEasingSpeed = 0;
@@ -20,31 +22,28 @@ class Particle {
     }
   }
 
-  showParticle(bool) {
-    if (!bool) {
-      this.display = false;
-    } else {
-      this.display = true;
-    }
-  }
-
   moveParticle() {
     if (this.x * this.x + this.y * this.y > this.radius * this.radius) {
-      this.xConstSpeed *= -1;
-      this.yConstSpeed *= -1;
+      this.xConstSpeed *= random(-1.5, 1.5);
+      this.yConstSpeed *= random(-1.5, 1.5);
     }
     if (
-      pow(this.x - (player.pos.x - sketchWidth / 2), 2) +
-        pow(this.y - (player.pos.y - sketchHeight / 2), 2) >
+      pow(this.x - (this.xPos - sketchWidth / 2), 2) +
+        pow(this.y - (this.yPos - sketchHeight / 2), 2) >
       pow(this.radius, 2)
     ) {
+      // this.easing = random(0.03, 0.08);
       this.xEasingSpeed =
-        (player.pos.x - sketchWidth / 2 - this.x) * this.easing;
+        (this.xPos - sketchWidth / 2 - this.x) * random(0.03, 0.08);
       this.yEasingSpeed =
-        (player.pos.y - sketchHeight / 2 - this.y) * this.easing;
+        (this.yPos - sketchHeight / 2 - this.y) * random(0.03, 0.08);
     }
 
     this.x += this.xConstSpeed + this.xEasingSpeed;
     this.y += this.yConstSpeed + this.yEasingSpeed;
+  }
+  setPos(x, y) {
+    this.xPos = x;
+    this.yPos = y;
   }
 }
