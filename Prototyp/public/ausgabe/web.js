@@ -457,12 +457,11 @@ function drawPlayer() {
 
   push();
   translate(sketchWidth / 2, sketchHeight / 2);
-  fill(0, 0, 255);
+  fill(170, 170, 255);
 
   for (let i = 0; i < player.particles.length; i++) {
     player.particles[i].createParticle();
     player.particles[i].moveParticle();
-    player.particles[i].setPos(player.pos.x, player.pos.y);
   }
   pop();
 }

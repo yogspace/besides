@@ -1,49 +1,47 @@
+// https://p5js.org/examples/simulate-particles.html
 class Particle {
-  constructor(xPos, yPos) {
-    this.xPos = xPos;
-    this.yPos = yPos;
-    this.x = random(-15, 15);
-    this.y = random(-15, 15);
-    this.r = random(1, 3);
-    this.xConstSpeed = random(-1.5, 1.5);
-    this.yConstSpeed = random(-1.5, 1.5);
+  constructor() {
+    this.pos = p5.Vector.random2D();
+    this.r = random(1, 5);
 
-    this.easing = random(0.01, 0.03);
-    this.xEasingSpeed = 0;
-    this.yEasingSpeed = 0;
-    this.radius = 20;
+    this.speedConst = p5.Vector.random2D().mult(0.5);
+    this.speedEasing = createVector(0, 0);
+
+    this.easing = random(0.04, 0.05);
+
+    this.radius = random(15, 25);
     this.display = true;
   }
 
   createParticle() {
     noStroke();
     if (this.display) {
-      circle(this.x, this.y, this.r);
+      circle(this.pos.x, this.pos.y, this.r);
+    }
+  }
+
+  showParticle(bool) {
+    if (!bool) {
+      this.display = false;
+    } else {
+      this.display = true;
     }
   }
 
   moveParticle() {
-    if (this.x * this.x + this.y * this.y > this.radius * this.radius) {
-      this.xConstSpeed *= random(-1.5, 1.5);
-      this.yConstSpeed *= random(-1.5, 1.5);
-    }
-    if (
-      pow(this.x - (this.xPos - sketchWidth / 2), 2) +
-        pow(this.y - (this.yPos - sketchHeight / 2), 2) >
-      pow(this.radius, 2)
-    ) {
-      // this.easing = random(0.03, 0.08);
-      this.xEasingSpeed =
-        (this.xPos - sketchWidth / 2 - this.x) * random(0.03, 0.08);
-      this.yEasingSpeed =
-        (this.yPos - sketchHeight / 2 - this.y) * random(0.03, 0.08);
+    let mousePos = createVector(
+      player.pos.x - sketchWidth / 2,
+      player.pos.y - sketchHeight / 2
+    );
+    if (mousePos.dist(this.pos) > this.radius) {
+      // if particle is too far from the mouse position
+      this.speedConst.mult(-1); // change direction of constant speed component
+      this.speedConst.rotate(random(-PI / 3, PI / 3));
+      this.speedEasing = mousePos.sub(this.pos).mult(this.easing); // Add speed component in direction of mouse position
+    } else {
+      this.speedEasing = createVector(0, 0); //reset easing speed if particel is in range
     }
 
-    this.x += this.xConstSpeed + this.xEasingSpeed;
-    this.y += this.yConstSpeed + this.yEasingSpeed;
-  }
-  setPos(x, y) {
-    this.xPos = x;
-    this.yPos = y;
+    this.pos = this.pos.add(this.speedEasing).add(this.speedConst);
   }
 }
