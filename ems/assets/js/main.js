@@ -619,14 +619,15 @@ function calcRoute(point) {
     default:
       break;
   }
+
   route.push(point.pos);
   return route;
 }
 
 function moveTo(point) {
   route = calcRoute(point);
+
   player.lastWayPoint = point;
-  console.log(route);
 
   let i = 0;
   let moving = setInterval(function () {
