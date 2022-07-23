@@ -9,6 +9,25 @@ body {
   /* overflow: hidden; */
   /* background-color: purple; */
 }
+
+@font-face {
+  font-family: "suisse"; /* Gewünschter Name */
+  src: url("../fonts/SuisseEDUIntl-Regular.otf");
+}
+
+@font-face {
+  font-family: "suisse-bold"; /* Gewünschter Name */
+  src: url("../fonts/SuisseEDUIntl-Bold.otf");
+}
+
+p {
+  font-family: "suisse";
+}
+
+h1 {
+  font-family: "suisse-bold";
+}
+
 main {
   display: grid;
   /* width: calc(100% - 20px); */
@@ -55,34 +74,36 @@ main {
 }
 
 #overlayIdee {
-  background-image: url("../img/idee_background.jpg");
+  background-image: url("../img/bg_idee.jpg");
   background-size: contain;
+  height: 100%;
   background-repeat: no-repeat;
   display: none; /* Hidden by default */
 }
 #overlayFazit {
-  background-image: url("../img/idee_background.jpg");
+  background-image: url("../img/bg_fazit.jpg");
+
   background-size: contain;
   height: 100%;
   background-repeat: no-repeat;
   display: none; /* Hidden by default */
 }
 #overlayTeam {
-  background-image: url("../img/idee_background.jpg");
+  background-image: url("../img/bg_team.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   height: 100%;
   display: none; /* Hidden by default */
 }
 #overlayTrailer {
-  background-image: url("../img/idee_background.jpg");
+  background-image: url("../img/bg_trailer.jpg");
   background-size: contain;
   background-repeat: no-repeat;
   height: 100%;
   display: none; /* Hidden by default */
 }
 #overlayPrototype {
-  background-image: url("../img/idee_background.jpg");
+  background-image: url("../img/bg_prototyp.jpg");
   background-size: contain;
   height: 100%;
   background-repeat: no-repeat;

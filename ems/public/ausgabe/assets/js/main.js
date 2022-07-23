@@ -318,7 +318,6 @@ let player = {
 function preload() {
   backgroundImg = loadImage("./assets/img/Outputwohnung.png");
   fazitImg = loadImage("./assets/img/fazit.svg");
-  ideeImg = loadImage("./assets/img/idee.png");
   prototypeImg = loadImage("./assets/img/prototype.svg");
   visualImg = loadImage("./assets/img/visual.svg");
 }
@@ -511,7 +510,7 @@ function calcRoute(point) {
           route = getWayPointPos([2, 12, 0]);
           break;
         case "prototype":
-          route = getWayPointPos([2, 12, 9, 8]);
+          route = getWayPointPos([2, 12, 3, 8]);
           break;
         case "team":
           route = getWayPointPos([2, 12, 4, 9]);
@@ -532,7 +531,7 @@ function calcRoute(point) {
           route = getWayPointPos([3, 12, 0]);
           break;
         case "fazit":
-          route = getWayPointPos([3, 2, 5]);
+          route = getWayPointPos([3, 12, 2, 5]);
           break;
         case "team":
           route = getWayPointPos([3, 12, 4, 9]);
@@ -598,7 +597,7 @@ function calcRoute(point) {
           route = getWayPointPos([7, 2, 5]);
           break;
         case "prototype":
-          route = getWayPointPos([7, 3, 8]);
+          route = getWayPointPos([7, 12, 3, 8]);
           break;
         case "team":
           route = getWayPointPos([7, 12, 4, 9]);
