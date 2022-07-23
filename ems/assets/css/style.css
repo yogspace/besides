@@ -34,6 +34,10 @@ main {
   background: #ffffffdc;
 }
 
+.none {
+  background-color: rgba(155, 35, 35, 0);
+}
+
 @font-face {
   font-family: "suisse"; /* Gewünschter Name */
   src: url("../fonts/SuisseEDUIntl-Regular.otf");
@@ -70,52 +74,40 @@ h1 {
   height: 100%; /* Full height (cover the whole page) */
   top: 0;
   left: 0;
-
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  z-index: 999; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer;
+  background: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 #overlayIdee {
   background-image: url("../img/bg_idee.jpg");
-  background-size: contain;
-  height: 100%;
-  background-repeat: no-repeat;
   display: none; /* Hidden by default */
 }
 #overlayFazit {
   background-image: url("../img/bg_fazit.jpg");
 
-  background-size: contain;
-  height: 100%;
-  background-repeat: no-repeat;
   display: none; /* Hidden by default */
 }
 #overlayTeam {
   background-image: url("../img/bg_team.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 100%;
+
   display: none; /* Hidden by default */
 }
 #overlayTrailer {
   background-image: url("../img/bg_trailer.jpg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  height: 100%;
+
   display: none; /* Hidden by default */
 }
 #overlayPrototype {
   background-image: url("../img/bg_prototyp.jpg");
-  background-size: contain;
-  height: 100%;
-  background-repeat: no-repeat;
+
   display: none; /* Hidden by default */
 }
 #overlayVisual {
-  background-image: url("../img/idee_background.jpg");
-  background-size: contain;
-  height: 100%;
-  background-repeat: no-repeat;
+  background-image: url("../img/bg_visual.jpg");
+
   display: none; /* Hidden by default */
 }
 
