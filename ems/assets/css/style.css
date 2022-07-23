@@ -1,0 +1,125 @@
+html {
+  height: 100%;
+  background-color: #000;
+}
+body {
+  margin: 20px;
+  padding: 0px;
+  height: calc(100% - 40px);
+  /* overflow: hidden; */
+  /* background-color: purple; */
+}
+main {
+  display: grid;
+  /* width: calc(100% - 20px); */
+  /* height: calc(100% - 20px); */
+  width: 100%;
+  height: 100%;
+  /* background-color: yellow; */
+  justify-content: center;
+  align-items: center;
+}
+.sketch {
+  width: calc(100vw - 40px);
+  aspect-ratio: 4 / 3;
+
+  /* height: 56.25%; */
+}
+#sketch {
+  padding: 0px;
+  margin: 0px;
+}
+
+.orange {
+  background: #ffffffdc;
+}
+
+@font-face {
+  font-family: "suisse"; /* Gewünschter Name */
+  src: url("../fonts/SuisseEDUIntl-Regular.otf");
+}
+
+@font-face {
+  font-family: "suisse-bold"; /* Gewünschter Name */
+  src: url("../fonts/SuisseEDUIntl-Bold.otf");
+}
+
+p {
+  font-family: "suisse";
+}
+
+h1 {
+  font-family: "suisse-bold";
+}
+
+#close1,
+#close2,
+#close3,
+#close4,
+#close5,
+#close6 {
+  font-size: 40px;
+  font-weight: 100;
+  text-align: right;
+  padding-left: 20px;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer;
+}
+
+#overlayIdee {
+  background-image: url("../img/bg_idee.jpg");
+  background-size: contain;
+  height: 100%;
+  background-repeat: no-repeat;
+  display: none; /* Hidden by default */
+}
+#overlayFazit {
+  background-image: url("../img/bg_fazit.jpg");
+
+  background-size: contain;
+  height: 100%;
+  background-repeat: no-repeat;
+  display: none; /* Hidden by default */
+}
+#overlayTeam {
+  background-image: url("../img/bg_team.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  display: none; /* Hidden by default */
+}
+#overlayTrailer {
+  background-image: url("../img/bg_trailer.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100%;
+  display: none; /* Hidden by default */
+}
+#overlayPrototype {
+  background-image: url("../img/bg_prototyp.jpg");
+  background-size: contain;
+  height: 100%;
+  background-repeat: no-repeat;
+  display: none; /* Hidden by default */
+}
+#overlayVisual {
+  background-image: url("../img/idee_background.jpg");
+  background-size: contain;
+  height: 100%;
+  background-repeat: no-repeat;
+  display: none; /* Hidden by default */
+}
+
+.ani {
+  width: 100%;
+  height: 100%;
+}
