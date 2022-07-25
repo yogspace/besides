@@ -98,8 +98,8 @@ h1 {
   display: none; /* Hidden by default */
 }
 #overlayPrototype {
-  background-image: url("../img/bg_prototyp.jpg");
-
+  background-image: url("../gif/wobbel_schwarz.gif");
+  width: 100%;
   display: none; /* Hidden by default */
 }
 #overlayVisual {
