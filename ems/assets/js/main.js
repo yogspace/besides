@@ -3,8 +3,6 @@ let sketchHeight = document.getElementById("sketch").offsetHeight;
 
 let backgroundImg;
 
-let time = 0;
-
 let route;
 
 let info = "default";
@@ -274,7 +272,7 @@ function move() {
 
 function drawCircle() {
   noStroke();
-  fill(255, 0, 0);
+  fill(170, 170, 255);
   circle(mouseX, mouseY, 20);
 }
 
@@ -326,6 +324,7 @@ let player = {
       x: 0,
       y: 0,
     },
+    arrived: false,
   },
 };
 
@@ -369,8 +368,7 @@ function draw() {
     infoMode === true &&
     info === player.lastWayPoint.name
   ) {
-    time++;
-    if (time > 200) {
+    if (player.lastWayPoint.arrived) {
       if (info === "fazit") {
         on("overlayFazit");
         off("sketch");
@@ -625,6 +623,7 @@ function calcRoute(point) {
 }
 
 function moveTo(point) {
+  player.lastWayPoint.arrived = false;
   route = calcRoute(point);
 
   player.lastWayPoint = point;
@@ -636,6 +635,7 @@ function moveTo(point) {
       i++;
     } else {
       clearInterval(moving);
+      player.lastWayPoint.arrived = true;
     }
   }, config.speed);
 }
@@ -650,7 +650,7 @@ function drawPlayer() {
 
   push();
   translate(sketchWidth / 2, sketchHeight / 2);
-  fill(0, 0, 255);
+  fill(170, 170, 255);
 
   for (let i = 0; i < player.particles.length; i++) {
     player.particles[i].createParticle();
