@@ -26,28 +26,28 @@ let tags = [
     name: "IDEE",
     pos: {
       x: sketchWidth / 2 + sketchWidth * 0.038,
-      y: sketchHeight - sketchHeight * 0.15,
+      y: sketchHeight - sketchHeight * 0.17,
     },
   },
   {
     name: "TRAILER",
     pos: {
       x: sketchWidth / 2 + sketchWidth * 0.245,
-      y: sketchHeight / 2 - sketchHeight * 0.35,
+      y: sketchHeight / 2 - sketchHeight * 0.33,
     },
   },
   {
     name: "PROTOTYP",
     pos: {
       x: sketchWidth - sketchWidth * 0.5,
-      y: sketchHeight / 2 - sketchHeight * 0.3,
+      y: sketchHeight / 2 - sketchHeight * 0.26,
     },
   },
   {
     name: "FAZIT & BEURTEILUNG",
     pos: {
       x: sketchWidth - sketchWidth * 0.807,
-      y: sketchHeight * 0.28,
+      y: sketchHeight * 0.27,
     },
   },
   {
@@ -60,8 +60,8 @@ let tags = [
   {
     name: "VISUALISIERUNG",
     pos: {
-      x: sketchWidth * 0.166,
-      y: sketchHeight - sketchHeight * 0.42,
+      x: sketchWidth * 0.175,
+      y: sketchHeight - sketchHeight * 0.37,
     },
   },
 ];
