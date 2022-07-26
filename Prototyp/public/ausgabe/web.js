@@ -5,11 +5,11 @@ let sketchHeight = document.getElementById("sketch").offsetHeight;
 let backgroundImg;
 
 let config = {
-  speed: 600,
+  speed: 800, //800 ist eine gute Zahl
   anmountOfWayPoints: 2,
-  showWayPoints: false,
+  showWayPoints: true,
+  spawnArtifactTime: 5000,
 };
-
 let mousePos = {
   x: 0,
   y: 0,
@@ -126,6 +126,7 @@ let wayPoints = [
     },
   },
 ];
+let artifacts = [];
 
 let routes = [];
 
@@ -141,6 +142,9 @@ let player = {
       x: 0,
       y: 0,
     },
+  },
+  time: {
+    lastMovingTime: Date.now(),
   },
 };
 
@@ -170,6 +174,7 @@ function draw() {
   drawBackround();
   drawWayPoints();
   // drawCircle();
+  drawArtifact();
   drawPlayer();
 }
 
@@ -387,12 +392,14 @@ function curveRoute(route, anmount) {
 }
 
 function moveTo(point) {
+  player.lastMovingTime = Date.now();
   // let route = curveRoute(calcRoute(point), config.anmountOfWayPoints);
   let route = calcRoute(point);
   player.lastWayPoint = point;
   console.log(route);
+  player.pos = route[0];
 
-  let i = 0;
+  let i = 1;
   let moving = setInterval(function () {
     if (i < route.length) {
       player.pos = route[i];
@@ -476,6 +483,62 @@ function drawWayPoints() {
       text(wayPoints[i].id, wayPoints[i].pos.x, wayPoints[i].pos.y);
     }
   }
+}
+
+function createArtifacts() {
+  for (let i = 0; i < wayPoints.length; i++) {
+    if (wayPoints[i].name) {
+      let a = {
+        name: wayPoints[i].name,
+        obj: new Artifact(wayPoints[i].pos.x, wayPoints[i].pos.y, 500),
+      };
+      artifacts.push(a);
+    }
+  }
+}
+createArtifacts();
+
+function drawArtifact() {
+  let time = Date.now();
+  if (time >= player.time.lastMovingTime + config.spawnArtifactTime) {
+    for (let i = 0; i < artifacts.length; i++) {
+      if (artifacts[i].name === player.lastWayPoint.name) {
+        artifacts[i].obj.spawn();
+      }
+    }
+    player.lastMovingTime = Date.now();
+
+    // console.log(artifact);
+    // if (artifacts.length === 0) {
+    //   artifacts.push(artifact);
+    // }
+    // let included;
+    // for (let i = 0; i < artifacts.length; i++) {
+    //   if (artifacts[i].name === a.name) {
+    //     console.log("included");
+    //     included = true;
+    //   } else {
+    //     included = false;
+    //   }
+    // }
+    // if (included === false) {
+    //   artifacts.push(artifact);
+    // }
+    // if (!artifacts.contain(a)) {
+    //   artifacts.push(a);
+    // }
+  }
+  // console.log(artifacts);
+  // spawnArtifacts();
+  // for (let i = 0; i < artifacts.length; i++) {
+  //   fill(0, 255, 0);
+  //   artifacts[i].lifeTime--;
+  //   circle(artifacts[i].x, artifacts[i].y, artifacts[i].size * 100);
+  //   if (artifacts[i].lifeTime <= 0) {
+  //     artifacts.splice[(i, 1)];
+  //     // console.log(artifacts);
+  //   }
+  // }
 }
 
 function drawCircle() {
