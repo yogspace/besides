@@ -395,7 +395,6 @@ function curveRoute(route, anmount) {
 function moveTo(point) {
   player.lastMovingTime = Date.now();
   player.lastWayPoint.arrived = false;
-  // let route = curveRoute(calcRoute(point), config.anmountOfWayPoints);
   let route = calcRoute(point);
   player.lastWayPoint = point;
   console.log(route);
@@ -421,7 +420,6 @@ socket.on("sendAreaLive", (payload) => {
       for (let i = 0; i < wayPoints.length; i++) {
         if (wayPoints[i].name === "livearea") {
           wayPoints[i].pos = player.pos;
-          // player.pos = wayPoints[i].pos;
         }
       }
     }
@@ -458,13 +456,6 @@ function mapLiveArea(area) {
 }
 
 function drawPlayer() {
-  // fill(0, 0, 255);
-  // stroke(0, 150, 0);
-  // strokeWeight(10);
-  // line(player.pos.x, player.pos.y - 30, player.pos.x, player.pos.y + 30);
-  // noStroke();
-  // circle(player.pos.x, player.pos.y, 30);
-
   push();
   translate(sketchWidth / 2, sketchHeight / 2);
   fill(170, 170, 255);
@@ -496,7 +487,6 @@ function createArtifacts() {
         obj: new Artifact(wayPoints[i].pos.x, wayPoints[i].pos.y, 500),
       };
       artifacts.push(a);
-      // a.obj.createParticles();
     }
   }
 }
@@ -509,6 +499,7 @@ function drawArtifact() {
       artifacts[i].obj.display();
       if (
         artifacts[i].name === player.lastWayPoint.name &&
+        player.lastWayPoint.name !== "door" &&
         player.lastWayPoint.arrived
       ) {
         artifacts[i].obj.grow();
@@ -517,38 +508,7 @@ function drawArtifact() {
       }
     }
     player.lastMovingTime = Date.now();
-
-    // console.log(artifact);
-    // if (artifacts.length === 0) {
-    //   artifacts.push(artifact);
-    // }
-    // let included;
-    // for (let i = 0; i < artifacts.length; i++) {
-    //   if (artifacts[i].name === a.name) {
-    //     console.log("included");
-    //     included = true;
-    //   } else {
-    //     included = false;
-    //   }
-    // }
-    // if (included === false) {
-    //   artifacts.push(artifact);
-    // }
-    // if (!artifacts.contain(a)) {
-    //   artifacts.push(a);
-    // }
   }
-  // console.log(artifacts);
-  // spawnArtifacts();
-  // for (let i = 0; i < artifacts.length; i++) {
-  //   fill(0, 255, 0);
-  //   artifacts[i].lifeTime--;
-  //   circle(artifacts[i].x, artifacts[i].y, artifacts[i].size * 100);
-  //   if (artifacts[i].lifeTime <= 0) {
-  //     artifacts.splice[(i, 1)];
-  //     // console.log(artifacts);
-  //   }
-  // }
 }
 
 function drawCircle() {
@@ -560,6 +520,5 @@ function drawCircle() {
 function drawBackround() {
   noStroke();
   background(0, 0, 0);
-  // background(255, 255, 255);
   image(backgroundImg, 0, 0, sketchWidth, sketchHeight);
 }
