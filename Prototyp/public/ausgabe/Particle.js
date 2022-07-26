@@ -8,7 +8,6 @@ class Particle {
     this.speedEasing = createVector(0, 0);
 
     this.easing = random(0.04, 0.05);
-
     this.radius = random(15, 25);
     this.display = true;
   }

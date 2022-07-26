@@ -6,20 +6,20 @@ class Artifact {
     this.size = 1;
     this.lifeTimeStart = lifeTime;
   }
-  spawn() {
-    if (this.lifeTime < this.lifeTimeStart) {
-      this.lifeTime = this.lifeTime + 1;
-    }
-    fill(0, 255, 0);
-    circle(this.x, this.y, this.lifeTime / 10);
-    console.log(this.lifeTime);
+
+  display() {
+    fill(255, 255, 255, 100);
+    circle(this.x, this.y, this.lifeTime / 7.5);
   }
-  die() {
-    if (this.lifeTime > 0) {
-      this.lifeTime = this.lifeTime - 1;
+
+  grow() {
+    if (this.lifeTime < this.lifeTimeStart) {
+      this.lifeTime = this.lifeTime + 1.5;
     }
-    fill(0, 255, 0);
-    this.lifeTime = this.lifeTimeStart;
-    circle(this.x, this.y, this.lifeTime / 10);
+  }
+  shrink() {
+    if (this.lifeTime > 0) {
+      this.lifeTime = this.lifeTime - 0.5;
+    }
   }
 }

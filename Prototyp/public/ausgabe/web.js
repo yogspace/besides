@@ -7,7 +7,7 @@ let backgroundImg;
 let config = {
   speed: 800, //800 ist eine gute Zahl
   anmountOfWayPoints: 2,
-  showWayPoints: true,
+  showWayPoints: false,
   spawnArtifactTime: 5000,
 };
 let mousePos = {
@@ -142,6 +142,7 @@ let player = {
       x: 0,
       y: 0,
     },
+    arrived: false,
   },
   time: {
     lastMovingTime: Date.now(),
@@ -393,6 +394,7 @@ function curveRoute(route, anmount) {
 
 function moveTo(point) {
   player.lastMovingTime = Date.now();
+  player.lastWayPoint.arrived = false;
   // let route = curveRoute(calcRoute(point), config.anmountOfWayPoints);
   let route = calcRoute(point);
   player.lastWayPoint = point;
@@ -406,6 +408,7 @@ function moveTo(point) {
       i++;
     } else {
       clearInterval(moving);
+      player.lastWayPoint.arrived = true;
     }
   }, config.speed);
 }
@@ -493,6 +496,7 @@ function createArtifacts() {
         obj: new Artifact(wayPoints[i].pos.x, wayPoints[i].pos.y, 500),
       };
       artifacts.push(a);
+      // a.obj.createParticles();
     }
   }
 }
@@ -502,8 +506,14 @@ function drawArtifact() {
   let time = Date.now();
   if (time >= player.time.lastMovingTime + config.spawnArtifactTime) {
     for (let i = 0; i < artifacts.length; i++) {
-      if (artifacts[i].name === player.lastWayPoint.name) {
-        artifacts[i].obj.spawn();
+      artifacts[i].obj.display();
+      if (
+        artifacts[i].name === player.lastWayPoint.name &&
+        player.lastWayPoint.arrived
+      ) {
+        artifacts[i].obj.grow();
+      } else {
+        artifacts[i].obj.shrink();
       }
     }
     player.lastMovingTime = Date.now();
