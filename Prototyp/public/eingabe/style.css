@@ -21,7 +21,7 @@ main {
 }
 .sketch {
   /* background-color: orange; */
-  width: calc(100vw - 40px);
+  width: calc(70vw - 40px);
   aspect-ratio: 4 / 3;
 
   /* height: 56.25%; */
