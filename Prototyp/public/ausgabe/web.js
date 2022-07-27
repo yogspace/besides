@@ -281,7 +281,7 @@ function calcRoute(point) {
           route = getWayPointPos([7, 11, 2, 12]);
           break;
         case "bed":
-          route = getWayPointPos([7, 11, 2, 4]);
+          route = getWayPointPos([7, 11, 2, 1]);
           break;
         case "livearea":
           route = getWayPointPos([7]);
@@ -458,7 +458,14 @@ function mapLiveArea(area) {
 function drawPlayer() {
   push();
   translate(sketchWidth / 2, sketchHeight / 2);
-  fill(170, 170, 255);
+  if (
+    (player.lastWayPoint.name === "bed" && player.lastWayPoint.arrived) ||
+    (player.lastWayPoint.name === "livearea" && player.lastWayPoint.arrived)
+  ) {
+    fill(170, 170, 255);
+  } else {
+    fill(255, 192, 203);
+  }
 
   for (let i = 0; i < player.particles.length; i++) {
     player.particles[i].createParticle();
